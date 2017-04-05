@@ -1,0 +1,136 @@
+{
+  "name": "s-and-p-500",
+  "title": "Standard and Poor's (S&P) 500 Index Data including Dividend, Earnings and P/E Ratio",
+  "licenses": [
+    {
+      "id": "odc-pddl",
+      "name": "Public Domain Dedication and License",
+      "version": "1.0",
+      "url": "http://opendatacommons.org/licenses/pddl/1.0/"
+    }
+  ],
+  "sources": [{
+    "name": "Robert Shiller",
+    "web": "http://www.econ.yale.edu/~shiller/data.htm"
+  }],
+  "maintainers": [{
+    "name": "Rufus Pollock",
+    "email": "rufus.pollock@okfn.org"
+  }],
+  "keywords": ["Indicator", "Economics", "Prices", "Stocks", "Stock Market", "US"],
+  "resources": [
+    {
+      "name": "data",
+      "path": "data/data.csv",
+      "format": "csv",
+      "schema": {
+        "fields": [
+          {
+            "type": "date",
+            "name": "Date"
+          },
+          {
+            "type": "number",
+            "description": "Level ('price') of the S&P 500 index",
+            "name": "SP500"
+          },
+          {
+            "type": "number",
+            "name": "Dividend"
+          },
+          {
+            "type": "number",
+            "name": "Earnings"
+          },
+          {
+            "type": "number",
+            "name": "Consumer Price Index"
+          },
+          {
+            "type": "number",
+            "description": "10 year interest rate (gov bonds)",
+            "name": "Long Interest Rate"
+          },
+          {
+            "type": "number",
+            "name": "Real Price"
+          },
+          {
+            "type": "number",
+            "name": "Real Dividend"
+          },
+          {
+            "type": "number",
+            "name": "Real Earnings"
+          },
+          {
+            "type": "number",
+            "description": "Cyclically Adjusted Price Earnings Ratio P/E10 or CAPE",
+            "name": "PE10"
+          }
+        ]
+      }
+    }
+  ],
+  "views": [
+    {
+      "name": "simple-spec",
+      "title": "SP500 chart using simple spec",
+      "specType": "simple",
+      "spec": {
+        "type": "line",
+        "group": "Date",
+        "series": ["SP500"]
+      }
+    },
+    {
+      "name": "vega-spec",
+      "title": "SP500 chart using vega spec",
+      "specType": "vega",
+      "spec": {
+        "width": 900,
+        "height": 400,
+        "padding": {"top": 10, "left": 100, "bottom": 30, "right": 10},
+        "data": [
+          {
+            "name": "data",
+            "source": "data",
+            "format": {"parse": {"Date":"date"}}
+          }
+        ],
+        "scales": [
+          {
+            "name": "x",
+            "type": "time",
+            "range": "width",
+            "domain": {"data": "data", "field": "Date"}
+          },
+          {
+            "name": "y",
+            "type": "linear",
+            "range": "height",
+            "domain": {"data": "data", "field": "SP500"}
+          }
+        ],
+        "axes": [
+          {"type": "x", "scale": "x"},
+          {"type": "y", "scale": "y"}
+        ],
+        "marks": [
+          {
+            "type": "line",
+            "from": {"data": "data"},
+            "properties": {
+              "enter": {
+                "x": {"scale": "x", "field": "Date"},
+                "y": {"scale": "y", "field": "SP500"},
+                "stroke": {"value": "steelblue"},
+                "strokeWidth": {"value": 2}
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
