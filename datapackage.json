@@ -94,7 +94,6 @@
         "data": [
           {
             "name": "data",
-            "source": "data",
             "format": {"parse": {"Date":"date"}}
           }
         ],
